@@ -7,17 +7,30 @@
 //
 
 #import "TimelineViewController.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 #import "APIManager.h"
 #import "UIImageView+AFNetworking.h"
 #import "TweetCellTableViewCell.h"
 #import "Tweet.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
+#import "viewTweetViewController.h"
 
 
 @interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+- (IBAction)didLogout:(id)sender;
+
 @property (strong, nonatomic) NSArray<Tweet *> *tweets;
+- (IBAction)tapFav:(id)sender;
+- (IBAction)tapRetweet:(id)sender;
+- (IBAction)tapReply:(id)sender;
+
+
+
 @property (weak, nonatomic) IBOutlet UITableView *tableTweets;
+// 1. view controller has a tableView as a subview
+
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (assign, nonatomic) BOOL isMoreDataLoading;
@@ -28,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // 3. view controller becomes its dataSource and delegate in viewDidLoad
     self.tableTweets.dataSource = self;
     self.tableTweets.delegate = self;
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -39,8 +53,8 @@
             self.tweets = tweets;
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             for (Tweet *tweet in tweets) {
-                //NSString *text = tweet.text;
-               // NSLog(@"%@", text);
+                NSString *text = tweet.text;
+                NSLog(@"%@", text);
                
             }
             
@@ -60,13 +74,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+// 8a. table view asks numberOfRows
+// 9. numberOfRows returns number of items returned from the API
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSLog(@"COUNT!");
     NSLog(@"%i", self.tweets.count);
     return self.tweets.count;
 }
+
+// 8b. cellsForRowAt
+// 10. cellsForRow returns an instance of the custom cell with that reuse identifier with its elements populated with data at the index asked for
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"TweetCell"];
+    // 2b: custom table view cell set to reuse idnetifier
     if ([self.tweets[indexPath.row] isKindOfClass: Tweet.class]) {
         
         Tweet *tweet1 =  self.tweets[indexPath.row];
@@ -85,25 +105,12 @@
         cell.profileIm.image = nil;
         [self fadePic:cell.profileIm withURL:profilePic];
     } else if ([self.tweets[indexPath.row] isKindOfClass: NSDictionary.class]) {
-       Tweet *tweet1 =  self.tweets[indexPath.row];
-//
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        cell.tweet = tweet1;
-//        cell.tweetText.text = tweet1[@"text"];
-//        cell.accountName.text = tweet1[@"user.name"];
-//        cell.retweetNum.text = [NSString stringWithFormat:@"%i", tweet1.retweetCount];
-//        cell.favNum.text = [NSString stringWithFormat:@"%i", tweet1.favoriteCount];
-//        cell.replyNum.text = [NSString stringWithFormat:@"%i", tweet1.favoriteCount];
-//        cell.date.text = tweet1.createdAtString;
-//        cell.screenName.text = tweet1.user.screenName;
-//        NSString *profilePicture = tweet1.user.profPic;
-//        NSURL *profilePic = [NSURL URLWithString:profilePicture];
-//        cell.profileIm.image = nil;
-//        [self fadePic:cell.profileIm withURL:profilePic];
+        NSLog(@"wrong!");
     }
     
     return cell;
 }
+
 
 -(void)fadePic: (UIImageView *)imgFading withURL: (NSURL *)urlProvided{
     NSURLRequest *request = [NSURLRequest requestWithURL:urlProvided];
@@ -139,6 +146,7 @@
             // lookup Nself.tweets = tweets;
             //insertObjects:(NSArray<ObjectType> *)objects atIndexes:(NSIndexSet *)indexes;
            // [self.tweets addObject:tweets];
+            // 6. reload table view
             self.tweets = tweets;
             [self.tableTweets reloadData];
         }
@@ -163,6 +171,7 @@
 
             // Update flag
             self.isMoreDataLoading = false;
+            //[self.tweets addObject:tweets];
             self.tweets = tweets;
             //self.tableTweets.dataSource = self;
             //self.tableTweets.delegate = self;
@@ -193,15 +202,39 @@
 }
 
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    TweetCellTableViewCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.tableTweets indexPathForCell:tappedCell];
+    if (indexPath.row){
+        Tweet *tweet = self.tweets[indexPath.row];
+        viewTweetViewController *viewTweetViewController1 = [segue destinationViewController];
+        viewTweetViewController1.tweet = tweet;
+        NSLog(@"tapped on a tweet");
+    }
 }
-*/
 
 
+
+- (IBAction)tapFav:(id)sender {
+    [self.tableTweets reloadData];
+}
+
+- (IBAction)tapRetweet:(id)sender {
+    [self.tableTweets reloadData];
+}
+
+
+- (IBAction)tapReply:(id)sender {
+    [self.tableTweets reloadData];
+}
+
+- (IBAction)didLogout:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
+    [[APIManager shared] logout];
+}
 @end
