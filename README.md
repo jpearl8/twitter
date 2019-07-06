@@ -24,7 +24,7 @@ The following **optional** features are implemented:
 - [x] User can view their profile in a *profile tab*
   - Contains the user header view: picture and tagline
   - Contains a section with the users basic stats: # tweets, # following, # followers
-  - [ ] Profile view should include that user's timeline
+  - [x] Profile view should include that user's timeline
 - [X] User should display the relative timestamp for each tweet "8m", "7h"
 - [X] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting. (not in the video but this functionality works also on home tinmeline!)
 - [ ] Links in tweets are clickable.
