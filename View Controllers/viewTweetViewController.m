@@ -34,16 +34,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@", self.tweet.user.partialScreen);
-    [[APIManager shared] getUserTimelineWithCompletion:self.tweet.user.partialScreen withCompletion:^(NSArray *tweets, NSError *error) {
-        if (tweets) {
-            for (Tweet *tweet in tweets){
-                NSLog(@"%@", tweet);
-            }
-        } else {
-            NSLog(@"na");
-        }   
-    }];
     self.accountName.text = self.tweet.user.name;
     self.screenName.text = self.tweet.user.screenName;
     self.date.text = self.tweet.createdAtString;
