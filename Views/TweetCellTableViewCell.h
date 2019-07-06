@@ -22,10 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *favNum;
 @property (weak, nonatomic) IBOutlet UILabel *retweetNum;
 @property (weak, nonatomic) IBOutlet UIButton *retweetButton;
-@property (weak, nonatomic) IBOutlet UIButton *replyButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *favButton;
-@property (weak, nonatomic) IBOutlet UILabel *replyNum;
+
 @end
 
 NS_ASSUME_NONNULL_END

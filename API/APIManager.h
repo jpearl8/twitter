@@ -15,9 +15,10 @@
 // 5. API manager calls the completion handler passing back data
 // 6. View controller stores that data passed into the completion handler
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *, NSError *))completion;
+- (void)getCurrentUser:(void(^)(User *currentUser, NSError *error))completion;
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray <Tweet*>*tweets, NSError *error))completion;
-//- (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 - (void)action:(Tweet *)tweet withInt:(int)x withCompletion:(void (^)(Tweet *, NSError *))completion;
-// support other API requests: get user timeline, favorite tweet, retweet,
+-(void)getUserTimelineWithCompletion:(NSString *)screenName withCompletion:(void(^)(NSArray<Tweet *>*tweets, NSError *error))completion;
+
 
 @end

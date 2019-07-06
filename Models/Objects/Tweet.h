@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Tweet : NSObject

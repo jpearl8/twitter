@@ -14,9 +14,15 @@
     self = [super init];
     if (self) {
         self.name = dictionary[@"name"];
-        self.screenName = dictionary[@"screen_name"];
+        // partial to be used in API calls, screenName everywhere else
+        self.partialScreen = dictionary[@"screen_name"];
+        self.screenName = [@"@" stringByAppendingString:dictionary[@"screen_name"]];
         self.profPic = dictionary[@"profile_image_url_https"];
-        // Initialize any othckernbvvcfkghkergirebrntblrtkkvder properties
+        self.followers_count = [dictionary[@"followers_count"] stringValue];
+        self.favorites_count = [dictionary[@"favourites_count"] stringValue];
+        self.location = dictionary[@"location"];
+        self.desc = dictionary[@"description"];
+        self.profile_background = dictionary[@"profile_background_image_url_https"];
     }
     return self;
 }

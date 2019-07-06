@@ -19,7 +19,10 @@
     if (self.tweet.favorited){
         [self.favButton setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
         x = 1;
+        
         self.tweet.favoriteCount += 1;
+        self.favNum.text = [NSString stringWithFormat:@"%d",self.tweet.favoriteCount];
+        NSLog(@"favorited");
     } else {
         [self.favButton setImage:[UIImage imageNamed:@"favor-icon"] forState:UIControlStateNormal];
         self.tweet.favoriteCount -= 1;
@@ -47,12 +50,22 @@
             NSLog(@"Error taking action on tweet: %@", error.localizedDescription);
         }
         else{
-            NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+            NSLog(@"Successfully took action on the following Tweet: %@", tweet.text);
         }
     }];
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
+    if (self.tweet.favorited){
+        [self.favButton setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
+    } else {
+        [self.favButton setImage:[UIImage imageNamed:@"favor-icon"] forState:UIControlStateNormal];
+    }
+    if (self.tweet.retweeted){
+       [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
+    } else {
+        [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon"] forState:UIControlStateNormal];
+    }
     // Initialization code
 }
 
