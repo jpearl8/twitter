@@ -45,11 +45,12 @@ The following **additional** features are implemented:
 - [X] List anything else that you can get done to improve the app functionality:
 User log in is added to the NSDefault disctionary as a key,
 Place holder pod installed for UITextView
+API function for user timeline
 Images fade in
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. i was working on the home time line and I didn't get it to work. I was also working on user profile. If I just had a few more hours, it would've been there!
+1. I made the API function for User timeline. I didn't have time to make the table, but if I had a few more hours!
 2. 
 
 ## Video Walkthrough
